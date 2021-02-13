@@ -22,21 +22,33 @@ class Menu_Example_TestUITests: XCTestCase {
         // Put teardown code here. This method is called after the invocation of each test method in the class.
     }
 
-    func testExample() throws {
+    func testMenu_hasTitle() throws {
         // UI tests must launch the application that they test.
         let app = XCUIApplication()
         app.launch()
 
-        // Use recording to get started writing UI tests.
-        // Use XCTAssert and related functions to verify your tests produce the correct results.
+        print(app.debugDescription)
+        let menuButton = app.buttons["popup"] // via accessibilityIdentifier
+        XCTAssertEqual(menuButton.label, "Edit Menu (Pop-up)")
     }
 
-    func testLaunchPerformance() throws {
-        if #available(macOS 10.15, iOS 13.0, tvOS 13.0, *) {
-            // This measures how long it takes to launch your application.
-            measure(metrics: [XCTApplicationLaunchMetric()]) {
-                XCUIApplication().launch()
-            }
-        }
+    func testMenu_hasButtonAddColor() throws {
+        let app = XCUIApplication()
+        app.launch()
+
+        print(app.debugDescription)
+        let menuButton = app.buttons["popup"] // via accessibilityIdentifier
+        menuButton.tap()
+        
+        print(app.debugDescription)
+        
+        //let button1 = app.buttons["color"]                // grab button by accessibilityIdentifier - DOES NOT WORK
+        //let button2 = app.buttons["contrast"]             // grab button by accessibilityIdentifier - DOES NOT WORK
+        //  APPLE YOU VEX ME!!!
+        let button1 = app.buttons["Add color"]              // grab button by label string
+        let button2 = app.buttons["Change contrast"]        // grab button by label string
+        
+        XCTAssertEqual(button1.label, "Add color")
+        XCTAssertEqual(button2.label, "Change contrast")
     }
 }
